@@ -1,4 +1,5 @@
 import os # TODO: Remove this
+import time
 
 import cli
 import game
@@ -10,7 +11,13 @@ newCli = cli.CLI(["/home/pi/MCServer/bedrock_server"])
 newGameIf = game.GameInterface(newCli)
 
 while True:
-    command = input("> ")
-
-    print(newGameIf.captureEvents())
-    print(newGameIf.sendCommand(command))
+    events = newGameIf.captureEvents()
+    
+    for event in events:
+        if event.type == "playerJoin":
+            print("Player joined", event.data["name"])
+            time.sleep(5)
+            newGameIf.sendCommand("say Hello, " + event.data["name"] + "!")
+        if event.type == "playerLeave":
+            print("Player left", event.data["name"])
+            newGameIf.sendCommand("say Bye, " + event.data["name"] + "!")
