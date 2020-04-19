@@ -56,11 +56,11 @@ class GameInterface:
         for line in self.eventStdout:
             if re.compile(RE_INFO_PLAYER_CONNECTED).match(line):
                 events.append(Event("playerJoin", {
-                    "name": re.compile(RE_INFO_PLAYER_CONNECTED).match(line).group()
+                    "name": re.compile(RE_INFO_PLAYER_CONNECTED).match(line).group(1)
                 }))
             if re.compile(RE_INFO_PLAYER_DISCONNECTED).match(line):
                 events.append(Event("playerLeave", {
-                    "name": re.compile(RE_INFO_PLAYER_DISCONNECTED).match(line).group()
+                    "name": re.compile(RE_INFO_PLAYER_DISCONNECTED).match(line).group(1)
                 }))
 
         self.eventStdout = []
