@@ -12,13 +12,15 @@ class GameInterface:
 
         output = ""
         lastMessage = ""
+        timeout = 10
 
-        while True:
+        while timeout != 0:
             lastMessage = self.cli.readstdout()
 
             if lastMessage.startswith("Unknown command: . "): # Test to see if command output is complete
                 break
             
             output += lastMessage
+            timeout -= 1
         
         return output
