@@ -1,23 +1,30 @@
-import os # TODO: Remove this
-import time
+import json
+import os
+import importlib
 
 import cli
 import game
 
-os.chdir("/home/pi/MCServer") # TODO: Make this user-configurable
+configFile = open("config.json", "r")
+config = json.loads(configFile.read())
+
+configFile.close()
+
+os.chdir(config["serverDirectory"])
 os.system("LD_LIBRARY_PATH=.")
 
-newCli = cli.CLI(["/home/pi/MCServer/bedrock_server"])
-newGameIf = game.GameInterface(newCli)
+cliInstance = cli.CLI([os.path.join(config["serverDirectory"], "bedrock_server")])
+gameInterfaceInstance = game.GameInterface(cliInstance)
+
+plugins = []
+
+for pluginName in config["plugins"]:
+    plugins.append(__import__("plugins.{}.main".format(plugin)))
+
+    if hasattr(plugins[-1], "__start__"):
+        getattr(plugins[-1], "__start__")(game, gameInterfaceInstance)
 
 while True:
-    events = newGameIf.captureEvents()
-    
-    for event in events:
-        if event.type == "playerJoin":
-            print("Player joined", event.data["name"])
-            time.sleep(5)
-            newGameIf.sendCommand("say Hello, " + event.data["name"] + "!")
-        if event.type == "playerLeave":
-            print("Player left", event.data["name"])
-            newGameIf.sendCommand("say Bye, " + event.data["name"] + "!")
+    for plugin in plugins:
+        if hasattr(plugin, "__loop__"):
+            getattr(plugins[-1], "__loop__")

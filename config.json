@@ -1,0 +1,6 @@
+{
+    "serverDirectory": "/home/pi/MCServer",
+    "plugins": [
+        "test"
+    ]
+}
