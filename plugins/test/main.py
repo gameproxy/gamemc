@@ -7,5 +7,5 @@ def __start__(gameParameter, interfaceParameter):
     interface = interfaceParameter
 
 def __loop__():
-    print(time.strftime("%H:%M:%S", time.gmtime()))
-    interface.sendCommand("title @a actionbar " + time.strftime("%H:%M:%S", time.gmtime()))
+    print(time.strftime("%H:%M:%S", time.localtime()))
+    interface.sendCommand("title @a actionbar " + time.strftime("%H:%M:%S", time.localtime()))
