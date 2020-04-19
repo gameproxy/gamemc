@@ -4,12 +4,46 @@ UNKNOWN_COMMAND_EMPTY = "Unknown command: . Please check that the command exists
 RE_INFO = "^\[....-..-.. ..:..:.. INFO] .*$"
 RE_INFO_PLAYER_CONNECTED = "^\[....-..-.. ..:..:.. INFO] Player connected: (.*), xuid: .*$"
 RE_INFO_PLAYER_DISCONNECTED = "^\[....-..-.. ..:..:.. INFO] Player disconnected: (.*), xuid: .*$"
+RE_FOUND_PLAYERS = "Found (.*)"
+NO_TARGETS = "No targets matched selector"
+
+players = []
 
 class Event:
     def __init__(self, eventType, eventData = {}):
         self.type = eventType
         self.data = eventData
 
+class Player:
+    def __init__(self, name):
+        self.name = name
+
+class Point:
+    def __init__(self, x, y, z):
+        self.x = x
+        self.y = y
+        self.z = z
+    
+    def toCommandString(self):
+        return "{} {} {}".format(self.x, self.y, self.z)
+    
+    def toSelectorString(self, radius = 1):
+        return "[x={},y={},z={},r={}]".format(self.x, self.y, self.z, radius)
+
+class Area:
+    def __init__(self, x, y, z, dx, dy, dz):
+        self.x = x
+        self.y = y
+        self.z = z
+        self.dx = dx
+        self.dy = dy
+        self.dz = dz
+    
+    def toCommandString(self):
+        return "{} {} {} {} {} {}".format(self.x, self.y, self.z, self.dx, self.dy, self.dz)
+    
+    def toSelectorString(self):
+        return "[x={},y={},z={},dx={},dy={},dz={}]".format(self.x, self.y, self.z, self.dx, self.dy, self.dz)
 
 class GameInterface:
     def __init__(self, cli):
@@ -55,14 +89,40 @@ class GameInterface:
         
         for line in self.eventStdout:
             if re.compile(RE_INFO_PLAYER_CONNECTED).match(line):
+                playerName = re.compile(RE_INFO_PLAYER_CONNECTED).match(line).group()
+
                 events.append(Event("playerJoin", {
-                    "name": re.compile(RE_INFO_PLAYER_CONNECTED).match(line).group()
+                    "name": playerName
                 }))
+
+                players.append(Player(playerName))
             if re.compile(RE_INFO_PLAYER_DISCONNECTED).match(line):
+                playerName = re.compile(RE_INFO_PLAYER_DISCONNECTED).match(line).group()
+
                 events.append(Event("playerLeave", {
-                    "name": re.compile(RE_INFO_PLAYER_DISCONNECTED).match(line).group()
+                    "name": playerName
                 }))
+
+                for i in range(0, len(players)):
+                    if players[i].name == playerName:
+                        players.pop(i)
 
         self.eventStdout = []
 
         return events
+    
+    def observeArea(self, area):
+        playersInArea = []
+
+        playerResult = self.sendCommand("testfor @e" + area.toSelectorString())
+
+        if playerResult != NO_TARGETS:
+            playerList = re.compile(RE_FOUND_PLAYERS).match(playerResult).group().split(", ")
+
+            for player in players:
+                if player.name in playerList:
+                    playersInArea.append(player)
+        
+        return {
+            "players": playersInArea
+        }
