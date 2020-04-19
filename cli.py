@@ -16,8 +16,8 @@ class CLI:
         if not self.finished:
             broken = False
 
-            while self.proc.stdout in select.select([self.proc.stdout], [], [], 0)[0]:
-                line = self.proc.stdout.readline()
+            while self.subprocess.stdout in select.select([self.subprocess.stdout], [], [], 0)[0]:
+                line = self.subprocess.stdout.readline()
 
                 if line and line != b"":
                     self.stdout += line.decode()
@@ -31,8 +31,8 @@ class CLI:
 
                 return False
             else:
-                while self.proc.stderr in select.select([self.proc.stderr], [], [], 0)[0]:
-                    line = self.proc.stderr.readline()
+                while self.subprocess.stderr in select.select([self.subprocess.stderr], [], [], 0)[0]:
+                    line = self.subprocess.stderr.readline()
 
                     if line and line != b"":
                         self.stdout += line.decode("utf-8")
@@ -53,8 +53,8 @@ class CLI:
     def writestdin(self, text):
         if not self.finished:
             try:
-                self.proc.stdin.write(text.encode())
-                self.proc.stdin.flush()
+                self.subprocess.stdin.write(text.encode())
+                self.subprocess.stdin.flush()
 
                 return True
             except BrokenPipeError:
