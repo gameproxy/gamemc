@@ -19,7 +19,9 @@ gameInterfaceInstance = game.GameInterface(cliInstance)
 plugins = []
 
 for pluginName in config["plugins"]:
-    plugins.append(__import__("plugins.{}.main".format(plugin)))
+    plugins.append(__import__("plugins.{}.main".format(pluginName)))
+    
+    print(hasattr(plugins[-1], "__start__"))
 
     if hasattr(plugins[-1], "__start__"):
         getattr(plugins[-1], "__start__")(game, gameInterfaceInstance)
@@ -27,4 +29,4 @@ for pluginName in config["plugins"]:
 while True:
     for plugin in plugins:
         if hasattr(plugin, "__loop__"):
-            getattr(plugins[-1], "__loop__")
+            getattr(plugin, "__loop__")

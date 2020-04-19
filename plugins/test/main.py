@@ -6,4 +6,5 @@ def __start__(gameParameter, interfaceParameter):
     interface = interfaceParameter
 
 def __loop__():
+    print("Hi")
     interface.sendCommand("title @a actionbar Hello, world!")
