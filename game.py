@@ -53,7 +53,7 @@ class GameInterface:
             if re.compile(RE_INFO).match(line):
                 self.eventStdout.append(line)
         
-        for eventLine in self.eventStdout:
+        for line in self.eventStdout:
             if re.compile(RE_INFO_PLAYER_CONNECTED).match(line):
                 events.append(Event("playerJoin", {
                     "name": re.compile(RE_INFO_PLAYER_CONNECTED).match(line).group()
