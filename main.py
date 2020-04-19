@@ -11,5 +11,6 @@ newGameIf = game.GameInterface(newCli)
 
 while True:
     command = input("> ")
-    
+
+    print(newGameIf.captureEvents())
     print(newGameIf.sendCommand(command))
