@@ -116,8 +116,8 @@ class GameInterface:
 
         playerResult = self.sendCommand("testfor @e" + area.toSelectorString())
 
-        if playerResult != NO_TARGETS:
-            playerList = re.compile(RE_FOUND_PLAYERS).match(playerResult).group().split(", ")
+        if playerResult != NO_TARGETS and re.compile(RE_FOUND_PLAYERS).match(playerResult) != None:
+            playerList = re.compile(RE_FOUND_PLAYERS).match(playerResult).group(1).split(", ")
 
             for player in players:
                 if player.name in playerList:
