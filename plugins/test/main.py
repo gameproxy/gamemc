@@ -1,10 +1,11 @@
-game = None
-interface = None
+import time
 
 def __start__(gameParameter, interfaceParameter):
+    global game, interface
+    
     game = gameParameter
     interface = interfaceParameter
 
 def __loop__():
-    print("Hi")
-    interface.sendCommand("title @a actionbar Hello, world!")
+    print(time.strftime("%H:%M:%S", time.gmtime()))
+    interface.sendCommand("title @a actionbar " + time.strftime("%H:%M:%S", time.gmtime()))
