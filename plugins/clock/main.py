@@ -80,7 +80,7 @@ characters = {
     ]
 }
 
-blockCache = {}
+lastTime = ""
 
 def renderCharacter(point, character):
     for x in range(0, 3):
@@ -90,14 +90,8 @@ def renderCharacter(point, character):
 
             if characters[character][y][x] == 1:
                 blockType = config["segOnBlock"]
-
-            if "{} {}".format(x, y) in blockCache:
-                if blockCache["{} {}".format(x, y)] == blockType:
-                    # Saves a few command calls
-                    continue
             
             interface.sendCommand("setblock {} {}".format(setBlock, blockType), False)
-            blockCache["{} {}".format(x, y)] = blockType
 
 def __start__(gameParameter, interfaceParameter, configParameter):
     global game, interface, config
@@ -108,6 +102,7 @@ def __start__(gameParameter, interfaceParameter, configParameter):
 
     # Clear area to render blocks
     displayedTime = time.strftime(config["timeFormat"], time.localtime())
+    lastTime = displayedTime
 
     time.sleep(10)
 
@@ -119,4 +114,7 @@ def __loop__():
     print(displayedTime)
     
     for i in range(0, len(displayedTime)):
-        renderCharacter(game.Point(config["x"] + (4 * i), config["y"], config["z"]), displayedTime[i])
+        if lastTime[i] != displayedTime[i]:
+            renderCharacter(game.Point(config["x"] + (4 * i), config["y"], config["z"]), displayedTime[i])
+
+    lastTime = displayedTime
