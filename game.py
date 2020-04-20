@@ -124,8 +124,10 @@ class GameInterface:
 
         return events
     
-    def sendChatMessage(self, message, targetPlayers = players):
-        self.captureEvents()
+    def sendChatMessage(self, message, targetPlayers = None):
+        if targetPlayers == None:
+            self.captureEvents()
+            targetPlayers = players
 
         for player in targetPlayers:
             self.sendCommand("tellraw {} {{\"rawtext\": [{{\"text\": \"{}\"}}]}}".format(player.name, message.replace("\"", "\\\"")), False)
