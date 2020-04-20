@@ -27,6 +27,7 @@ while not started:
             started = True
 
 gameInterfaceInstance.sendChatMessage("§eLoading plugins...")
+print("Loading plugins...")
 
 for plugin in config["plugins"]:
     plugins.append(importlib.import_module("plugins.{}.main".format(plugin["name"]), plugin["name"]))
@@ -39,6 +40,7 @@ for plugin in config["plugins"]:
             print("Plugin {} failed at start: uncaught {}: {}".format(plugins[-1].__name__, e.__class__.__name__, e.message))
     
     gameInterfaceInstance.sendChatMessage("§ePlugin {} loaded".format(plugins[-1].__name__))
+    print("Plugin {} loaded".format(plugins[-1].__name__))
 
 if len(plugins) == 1:
     gameInterfaceInstance.sendChatMessage("§aLoaded 1 plugin")
