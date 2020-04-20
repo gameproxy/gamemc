@@ -2,9 +2,14 @@
     "serverDirectory": "/home/pi/MCServer",
     "plugins": [
         {
-            "name": "test",
+            "name": "clock",
             "config": {
-                "timeFormat": "%H:%M:%S"
+                "x": 10,
+                "y": 10,
+                "z": 10,
+                "timeFormat": "%H:%M:%S",
+                "segOnBlock": "stone",
+                "segOffBlock": "air"
             }
         }
     ]

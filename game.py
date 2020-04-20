@@ -31,7 +31,7 @@ class Point:
     def toSelectorString(self, radius = 1):
         return "[x={},y={},z={},r={}]".format(self.x, self.y, self.z, radius)
 
-class Area:
+class Volume:
     def __init__(self, x, y, z, dx, dy, dz):
         self.x = x
         self.y = y
@@ -115,18 +115,18 @@ class GameInterface:
 
         return events
     
-    def observeArea(self, area):
-        playersInArea = []
+    def observeVolume(self, volume):
+        playersInVolume = []
 
-        playerResult = self.sendCommand("testfor @e" + area.toSelectorString())
+        playerResult = self.sendCommand("testfor @e" + volume.toSelectorString())
 
         if playerResult != NO_TARGETS and re.compile(RE_FOUND_PLAYERS).match(playerResult) != None:
             playerList = re.compile(RE_FOUND_PLAYERS).match(playerResult).group(1).split(", ")
 
             for player in players:
                 if player.name in playerList:
-                    playersInArea.append(player)
+                    playersInVolume.append(player)
         
         return {
-            "players": playersInArea
+            "players": playersInVolume
         }
