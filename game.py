@@ -52,33 +52,39 @@ class GameInterface:
 
         self.eventStdout = []
     
-    def sendCommand(self, command):
+    def sendCommand(self, command, readOutput = True):
         self.cli.poll()
         self.cli.readstdout()
 
         self.cli.writestdin(command + "\n")
         self.cli.writestdin("\n") # Send a blank command so that we know when command output is complete
 
-        output = ""
-        lastMessage = ""
-        timeout = time.time() + 1
+        if readOutput:
+            output = ""
+            lastMessage = ""
+            timeout = time.time() + 1
 
-        while timeout != 0:
-            self.cli.poll()
-            lastMessage = self.cli.readstdout()
-            
-            for line in lastMessage.splitlines():
-                if line == UNKNOWN_COMMAND_EMPTY: # Test to see if command output is complete
-                    return output.rstrip()
-                elif re.compile(RE_INFO).match(line): # Skip INFO lines, add them to the event queue stdout only
-                    self.eventStdout.append(line)
-
-                    continue
+            while timeout != 0:
+                self.cli.poll()
+                lastMessage = self.cli.readstdout()
                 
-                output += line + "\n"
-            
-            if time.time() > timeout:
-                break
+                for line in lastMessage.splitlines():
+                    if line == UNKNOWN_COMMAND_EMPTY: # Test to see if command output is complete
+                        return output.rstrip()
+                    elif re.compile(RE_INFO).match(line): # Skip INFO lines, add them to the event queue stdout only
+                        self.eventStdout.append(line)
+
+                        continue
+                    
+                    output += line + "\n"
+                
+                if time.time() > timeout:
+                    break
+        else:
+            # Clear stdout
+
+            self.cli.poll()
+            self.cli.readstdout()
     
     def captureEvents(self):
         events = []

@@ -96,7 +96,7 @@ def renderCharacter(point, character):
                     # Saves a few command calls
                     continue
             
-            interface.sendCommand("setblock {} {}".format(setBlock, blockType))
+            interface.sendCommand("setblock {} {}".format(setBlock, blockType), False)
             blockCache["{} {} {}".format(x, y, character)] = blockType
 
 def __start__(gameParameter, interfaceParameter, configParameter):
@@ -111,7 +111,7 @@ def __start__(gameParameter, interfaceParameter, configParameter):
 
     time.sleep(10)
 
-    interface.sendCommand("fill {} {} {} {} {} {} {}".format(config["x"], config["y"], config["z"], config["x"] + (4 * len(displayedTime)), config["y"] + 5, config["z"], config["segOffBlock"]))
+    interface.sendCommand("fill {} {} {} {} {} {} {}".format(config["x"], config["y"], config["z"], config["x"] + (4 * len(displayedTime)), config["y"] + 5, config["z"], config["segOffBlock"]), False)
 
 def __loop__():
     displayedTime = time.strftime(config["timeFormat"], time.localtime())
