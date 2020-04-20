@@ -111,7 +111,7 @@ def __start__(gameParameter, interfaceParameter, configParameter):
 
     time.sleep(10)
 
-    interface.sendCommand("fill {} {} {} {} {} {} {}".format(config["x"], config["y"], config["z"], config["x"] + (4 * len(displayedTime)), config["y"] + 5, config["z"], config["segOffBlock"])
+    interface.sendCommand("fill {} {} {} {} {} {} {}".format(config["x"], config["y"], config["z"], config["x"] + (4 * len(displayedTime)), config["y"] + 5, config["z"], config["segOffBlock"]))
 
 def __loop__():
     displayedTime = time.strftime(config["timeFormat"], time.localtime())
