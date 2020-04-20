@@ -13,10 +13,11 @@ configFile.close()
 owd = os.getcwd()
 os.chdir(config["serverDirectory"])
 os.system("LD_LIBRARY_PATH=.")
-os.chdir(owd)
 
 cliInstance = cli.CLI([os.path.join(config["serverDirectory"], "bedrock_server")])
 gameInterfaceInstance = game.GameInterface(cliInstance)
+
+os.chdir(owd)
 
 plugins = []
 started = False
