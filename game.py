@@ -126,6 +126,9 @@ class GameInterface:
     
     def sendChatMessage(self, message, targetPlayers = None):
         if targetPlayers == None:
+            targetPlayers = "@a"
+
+        if isinstance(targetPlayers, str):
             self.sendCommand("tellraw @a {{\"rawtext\": [{{\"text\": \"{}\"}}]}}".format(message.replace("\"", "\\\"")), False)
         else:
             for player in targetPlayers:

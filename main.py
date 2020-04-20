@@ -36,11 +36,11 @@ for plugin in config["plugins"]:
         try:
             plugins[-1].__start__(game, gameInterfaceInstance, plugin["config"])
         except Exception as e:
-            gameInterfaceInstance.sendChatMessage("§4Plugin {} failed: uncaught {}".format(plugins[-1].__name__, e.__class__.__name__))
-            print("Plugin {} failed at start: uncaught {}: {}".format(plugins[-1].__name__, e.__class__.__name__, e.message))
+            gameInterfaceInstance.sendChatMessage("§4Plugin {} failed: uncaught {}".format(plugins[-1].__name__.split(".")[1], e.__class__.__name__))
+            print("Plugin {} failed at start: uncaught {}: {}".format(plugins[-1].__name__.split(".")[1], e.__class__.__name__, e.message))
     
-    gameInterfaceInstance.sendChatMessage("§ePlugin {} loaded".format(plugins[-1].__name__))
-    print("Plugin {} loaded".format(plugins[-1].__name__))
+    gameInterfaceInstance.sendChatMessage("§ePlugin {} loaded".format(plugins[-1].__name__.split(".")[1]))
+    print("Plugin {} loaded".format(plugins[-1].__name__.split(".")[1]))
 
 if len(plugins) == 1:
     gameInterfaceInstance.sendChatMessage("§aLoaded 1 plugin")
@@ -55,5 +55,5 @@ while True:
             try:
                 plugin.__loop__()
             except Exception as e:
-                gameInterfaceInstance.sendChatMessage("§4Plugin {} failed: uncaught {}".format(plugin.__name__, e.__class__.__name__))
-                print("Plugin {} failed at loop: uncaught {}: {}".format(plugin.__name__, e.__class__.__name__, e.message))
+                gameInterfaceInstance.sendChatMessage("§4Plugin {} failed: uncaught {}".format(plugin.__name__.split(".")[1], e.__class__.__name__))
+                print("Plugin {} failed at loop: uncaught {}: {}".format(plugin.__name__.split(".")[1], e.__class__.__name__, e.message))
