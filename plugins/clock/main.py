@@ -109,6 +109,8 @@ def __start__(gameParameter, interfaceParameter, configParameter):
     # Clear area to render blocks
     displayedTime = time.strftime(config["timeFormat"], time.localtime())
 
+    time.sleep(10)
+
     interface.sendCommand("fill {} {} {} {} {} {} {}".format(config["x"], config["y"], config["z"], config["x"] + (4 * len(displayedTime)), config["y"] + 5, config["z"], config["segOffBlock"])
 
 def __loop__():
