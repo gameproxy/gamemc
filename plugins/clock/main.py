@@ -198,11 +198,11 @@ def __loop__():
                 dy = 0
                 dz = -4 * i
 
-            if lastTimes[i] != displayedTime[i]:
+            if lastTimes[clock][i] != displayedTime[clock][i]:
                 renderCharacter(clock, game.Point(
                     config["clocks"][clock]["x"] + dx,
                     config["clocks"][clock]["y"] + dy,
                     config["clocks"][clock]["z"] + dz
-                ), displayedTime[i])
+                ), displayedTime[clock][i])
 
         lastTimes[clock] = displayedTime
