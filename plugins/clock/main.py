@@ -85,7 +85,7 @@ lastTime = ""
 def renderCharacter(point, character):
     for x in range(0, 3):
         for y in range(0, 5):
-            setBlock = game.Point(point.x + x, point.y + y, point.z).toCommandString()
+            setBlock = game.Point(point.x + x, point.y + 5 - y, point.z).toCommandString()
             blockType = config["segOffBlock"]
 
             if characters[character][y][x] == 1:
