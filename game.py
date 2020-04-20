@@ -3,6 +3,7 @@ import time
 
 UNKNOWN_COMMAND_EMPTY = "Unknown command: . Please check that the command exists and that you have permission to use it."
 RE_INFO = "^\[....-..-.. ..:..:.. INFO] .*$"
+RE_INFO_SERVER_STARTED = "^\[....-..-.. ..:..:.. INFO] Server started.$"
 RE_INFO_PLAYER_CONNECTED = "^\[....-..-.. ..:..:.. INFO] Player connected: (.*), xuid: .*$"
 RE_INFO_PLAYER_DISCONNECTED = "^\[....-..-.. ..:..:.. INFO] Player disconnected: (.*), xuid: .*$"
 RE_FOUND_PLAYERS = "Found (.*)"
@@ -98,6 +99,8 @@ class GameInterface:
                 self.eventStdout.append(line)
         
         for line in self.eventStdout:
+            if re.compile(RE_INFO_SERVER_STARTED).match(line):
+                events.append(Event("serverStart"))
             if re.compile(RE_INFO_PLAYER_CONNECTED).match(line):
                 playerName = re.compile(RE_INFO_PLAYER_CONNECTED).match(line).group(1)
 
@@ -120,6 +123,10 @@ class GameInterface:
         self.eventStdout = []
 
         return events
+    
+    def sendChatMessage(self, message, targetPlayers = players):
+        for player in targetPlayers:
+            self.sendCommand("tellraw {} {{\"rawtext\": [\"text\": \"{}\"]}}".format(player.name, message.replace("\"", "\\\"")))
     
     def observeVolume(self, volume):
         playersInVolume = []

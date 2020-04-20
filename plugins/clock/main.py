@@ -168,8 +168,6 @@ def __loop__():
         for clock in range(0, len(config["clocks"])):
             displayedTime = time.strftime(config["clocks"][clock]["timeFormat"], time.localtime())
 
-            print("Clock {}: {}".format(clock, displayedTime))
-
             for i in range(0, len(displayedTime)):
                 dx = 0
                 dy = 0
