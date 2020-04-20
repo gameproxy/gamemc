@@ -94,7 +94,7 @@ def renderCharacter(point, character):
             interface.sendCommand("setblock {} {}".format(setBlock, blockType), False)
 
 def __start__(gameParameter, interfaceParameter, configParameter):
-    global game, interface, config
+    global game, interface, config, lastTime
     
     game = gameParameter
     interface = interfaceParameter
@@ -109,6 +109,8 @@ def __start__(gameParameter, interfaceParameter, configParameter):
     interface.sendCommand("fill {} {} {} {} {} {} {}".format(config["x"], config["y"], config["z"], config["x"] + (4 * len(displayedTime)), config["y"] + 5, config["z"], config["segOffBlock"]), False)
 
 def __loop__():
+    global lastTime
+
     displayedTime = time.strftime(config["timeFormat"], time.localtime())
 
     print(displayedTime)
