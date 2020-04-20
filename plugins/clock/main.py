@@ -126,7 +126,7 @@ def __start__(gameParameter, interfaceParameter, configParameter):
 
         if config["clocks"][clock]["axis"] == "x":
             dx = 4 * len(displayedTime)
-            dy = 5
+            dy = 4
             dz = 0
         elif config["clocks"][clock]["axis"] == "y":
             dx = 0
@@ -134,19 +134,19 @@ def __start__(gameParameter, interfaceParameter, configParameter):
             dz = 5
         elif config["clocks"][clock]["axis"] == "z":
             dx = 0
-            dy = 5
+            dy = 4
             dz = 4 * len(displayedTime)
         elif config["clocks"][clock]["axis"] == "-x":
             dx = -4 * len(displayedTime)
-            dy = 5
+            dy = 4
             dz = 0
         elif config["clocks"][clock]["axis"] == "-y":
             dx = 0
             dy = -4 * len(displayedTime)
-            dz = 5
+            dz = 4
         elif config["clocks"][clock]["axis"] == "-z":
             dx = 0
-            dy = 5
+            dy = 4
             dz = -4 * len(displayedTime)
 
         interface.sendCommand("fill {} {} {} {} {} {} {}".format(
