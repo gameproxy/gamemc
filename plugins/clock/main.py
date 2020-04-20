@@ -162,7 +162,7 @@ def __start__(gameParameter, interfaceParameter, configParameter):
         ), False)
 
 def __loop__():
-    global lastTimes
+    global lastRun, lastTimes
 
     if time.time() > lastRun + config["runEvery"]:
         for clock in range(0, len(config["clocks"])):
