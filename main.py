@@ -19,7 +19,6 @@ gameInterfaceInstance = game.GameInterface(cliInstance)
 
 os.chdir(owd)
 
-plugins = []
 started = False
 
 while not started:
@@ -33,6 +32,8 @@ gameInterfaceInstance.sendChatMessage("§eLoading plugins...")
 print("Loading plugins...")
 
 while True:
+    plugins = []
+
     for plugin in config["plugins"]:
         plugins.append(importlib.import_module("plugins.{}.main".format(plugin["name"]), plugin["name"]))
 
@@ -60,6 +61,8 @@ while True:
         configFile.close()
 
         if newConfig != config:
+            config = newConfig
+
             break
 
         for plugin in plugins:
