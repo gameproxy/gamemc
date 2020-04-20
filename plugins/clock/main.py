@@ -81,6 +81,7 @@ characters = {
 }
 
 lastTimes = []
+lastRun = 0
 
 def renderCharacter(clock, point, character):
     for x in range(0, 3):
@@ -162,47 +163,50 @@ def __start__(gameParameter, interfaceParameter, configParameter):
 
 def __loop__():
     global lastTimes
-    
-    for clock in range(0, len(config["clocks"])):
-        displayedTime = time.strftime(config["clocks"][clock]["timeFormat"], time.localtime())
 
-        print("Clock {}: {}".format(clock, displayedTime))
+    if time.time() > lastRun + config["runEvery"]:
+        for clock in range(0, len(config["clocks"])):
+            displayedTime = time.strftime(config["clocks"][clock]["timeFormat"], time.localtime())
 
-        for i in range(0, len(displayedTime)):
-            dx = 0
-            dy = 0
-            dz = 0
+            print("Clock {}: {}".format(clock, displayedTime))
 
-            if config["clocks"][clock]["axis"] == "x":
-                dx = 4 * i
-                dy = 0
-                dz = 0
-            elif config["clocks"][clock]["axis"] == "y":
-                dx = 0
-                dy = 4 * i
-                dz = 0
-            elif config["clocks"][clock]["axis"] == "z":
+            for i in range(0, len(displayedTime)):
                 dx = 0
                 dy = 0
-                dz = 4 * i
-            elif config["clocks"][clock]["axis"] == "-x":
-                dx = -4 * i
-                dy = 0
                 dz = 0
-            elif config["clocks"][clock]["axis"] == "-y":
-                dx = 0
-                dy = -4 * i
-                dz = 0
-            elif config["clocks"][clock]["axis"] == "-z":
-                dx = 0
-                dy = 0
-                dz = -4 * i
 
-            if lastTimes[clock][i] != displayedTime[i]:
-                renderCharacter(clock, game.Point(
-                    config["clocks"][clock]["x"] + dx,
-                    config["clocks"][clock]["y"] + dy,
-                    config["clocks"][clock]["z"] + dz
-                ), displayedTime[i])
+                if config["clocks"][clock]["axis"] == "x":
+                    dx = 4 * i
+                    dy = 0
+                    dz = 0
+                elif config["clocks"][clock]["axis"] == "y":
+                    dx = 0
+                    dy = 4 * i
+                    dz = 0
+                elif config["clocks"][clock]["axis"] == "z":
+                    dx = 0
+                    dy = 0
+                    dz = 4 * i
+                elif config["clocks"][clock]["axis"] == "-x":
+                    dx = -4 * i
+                    dy = 0
+                    dz = 0
+                elif config["clocks"][clock]["axis"] == "-y":
+                    dx = 0
+                    dy = -4 * i
+                    dz = 0
+                elif config["clocks"][clock]["axis"] == "-z":
+                    dx = 0
+                    dy = 0
+                    dz = -4 * i
 
-        lastTimes[clock] = displayedTime
+                if lastTimes[clock][i] != displayedTime[i]:
+                    renderCharacter(clock, game.Point(
+                        config["clocks"][clock]["x"] + dx,
+                        config["clocks"][clock]["y"] + dy,
+                        config["clocks"][clock]["z"] + dz
+                    ), displayedTime[i])
+
+            lastTimes[clock] = displayedTime
+        
+        lastRun = time.time()

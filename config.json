@@ -41,7 +41,8 @@
                         "segOffBlock": "air",
                         "axis": "-z"
                     }
-                ]
+                ],
+                "runEvery": 10
             }
         }
     ]
