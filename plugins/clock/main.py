@@ -80,13 +80,23 @@ characters = {
     ]
 }
 
+blockCache = {}
+
 def renderCharacter(point, character):
     for x in range(0, 3):
         for y in range(0, 5):
-            if characters[character][y][x] == 0:
-                interface.sendCommand("setblock {} {}".format(game.Point(point.x + x, point.y + y, point.z).toCommandString(), config["segOffBlock"]))
-            elif characters[character][y][x] == 1:
-                interface.sendCommand("setblock {} {}".format(game.Point(point.x + x, point.y + y, point.z).toCommandString(), config["segOnBlock"]))
+            setBlock = game.Point(point.x + x, point.y + y, point.z).toCommandString()
+            blockType = config["segOffBlock"]
+
+            if characters[character][y][x] == 1:
+                blockType = config["segOnBlock"]
+
+            if "{} {}".format(x, y) in blockCache:
+                if blockCache["{} {}".format(x, y)] == blockType:
+                    # Saves a few command calls
+                    continue
+            
+            interface.sendCommand("setblock {} {}".format(setBlock, blockType))
 
 def __start__(gameParameter, interfaceParameter, configParameter):
     global game, interface, config
