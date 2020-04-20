@@ -1,6 +1,11 @@
 {
     "serverDirectory": "/home/pi/MCServer",
     "plugins": [
-        "test"
+        {
+            "name": "test",
+            "config": {
+                "timeFormat": "%H:%M:%S"
+            }
+        }
     ]
 }
