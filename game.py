@@ -1,4 +1,5 @@
 import re
+import time
 
 UNKNOWN_COMMAND_EMPTY = "Unknown command: . Please check that the command exists and that you have permission to use it."
 RE_INFO = "^\[....-..-.. ..:..:.. INFO] .*$"
@@ -60,7 +61,7 @@ class GameInterface:
 
         output = ""
         lastMessage = ""
-        timeout = 10000
+        timeout = time.time() + 1
 
         while timeout != 0:
             self.cli.poll()
@@ -75,6 +76,9 @@ class GameInterface:
                     continue
                 
                 output += line + "\n"
+            
+            if time.time() > timeout:
+                break
     
     def captureEvents(self):
         events = []
