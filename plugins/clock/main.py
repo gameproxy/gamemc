@@ -106,7 +106,7 @@ def renderCharacter(clock, point, character):
             interface.sendCommand("setblock {} {}".format(setBlock, blockType), False)
 
 def __start__(gameParameter, interfaceParameter, configParameter):
-    global game, interface, config, lastTime
+    global game, interface, config, lastTimes
     
     game = gameParameter
     interface = interfaceParameter
@@ -167,7 +167,7 @@ def __loop__():
         displayedTime = time.strftime(config["clocks"][clock]["timeFormat"], time.localtime())
 
         for i in range(0, len(displayedTime)):
-            if lastTime[i] != displayedTime[i]:
+            if lastTimes[i] != displayedTime[i]:
                 renderCharacter(clock, game.Point(config["clocks"][clock]["x"] + (4 * i), config["clocks"][clock]["y"], config["clocks"][clock]["z"]), displayedTime[i])
 
         lastTimes[clock] = displayedTime
