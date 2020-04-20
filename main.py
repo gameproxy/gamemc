@@ -44,8 +44,10 @@ for plugin in config["plugins"]:
 
 if len(plugins) == 1:
     gameInterfaceInstance.sendChatMessage("§aLoaded 1 plugin")
+    print("Loaded 1 plugin")
 else:
     gameInterfaceInstance.sendChatMessage("§aLoaded {} plugins".format(len(plugins)))
+    print("Loaded {} plugins".format(len(plugins)))
 
 while True:
     for plugin in plugins:

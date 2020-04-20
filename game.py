@@ -126,7 +126,7 @@ class GameInterface:
     
     def sendChatMessage(self, message, targetPlayers = players):
         for player in targetPlayers:
-            self.sendCommand("tellraw {} {{\"rawtext\": [\"text\": \"{}\"]}}".format(player.name, message.replace("\"", "\\\"")))
+            self.sendCommand("tellraw {} {{\"rawtext\": [{{\"text\": \"{}\"}}]}}".format(player.name, message.replace("\"", "\\\"")))
     
     def observeVolume(self, volume):
         playersInVolume = []
