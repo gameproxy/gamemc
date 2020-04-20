@@ -112,7 +112,7 @@ def __start__(gameParameter, interfaceParameter, configParameter):
     interface = interfaceParameter
     config = configParameter
 
-    for clock in range(0, len(config["clocks"]):
+    for clock in range(0, len(config["clocks"])):
         lastTimes.append("")
 
         # Clear area to render blocks
