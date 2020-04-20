@@ -4,12 +4,44 @@
         {
             "name": "clock",
             "config": {
-                "x": 10,
-                "y": 10,
-                "z": 10,
-                "timeFormat": "%H:%M:%S",
-                "segOnBlock": "stone",
-                "segOffBlock": "air"
+                "clocks": [
+                    {
+                        "x": 10,
+                        "y": 10,
+                        "z": 10,
+                        "timeFormat": "%S",
+                        "segOnBlock": "stone",
+                        "segOffBlock": "air",
+                        "axis": "x"
+                    },
+                    {
+                        "x": 10,
+                        "y": 10,
+                        "z": 10,
+                        "timeFormat": "%S",
+                        "segOnBlock": "stone",
+                        "segOffBlock": "air",
+                        "axis": "z"
+                    },
+                    {
+                        "x": 10,
+                        "y": 10,
+                        "z": 10,
+                        "timeFormat": "%S",
+                        "segOnBlock": "stone",
+                        "segOffBlock": "air",
+                        "axis": "-x"
+                    },
+                    {
+                        "x": 10,
+                        "y": 10,
+                        "z": 10,
+                        "timeFormat": "%S",
+                        "segOnBlock": "stone",
+                        "segOffBlock": "air",
+                        "axis": "-z"
+                    }
+                ]
             }
         }
     ]

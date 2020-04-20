@@ -80,16 +80,28 @@ characters = {
     ]
 }
 
-lastTime = ""
+lastTimes = []
 
-def renderCharacter(point, character):
+def renderCharacter(clock, point, character):
     for x in range(0, 3):
         for y in range(0, 5):
-            setBlock = game.Point(point.x + x, point.y + 4 - y, point.z).toCommandString()
-            blockType = config["segOffBlock"]
+            if config["clocks"][clock]["axis"] == "x":
+                setBlock = game.Point(point.x + x, point.y + 4 - y, point.z).toCommandString()
+            elif config["clocks"][clock]["axis"] == "y":
+                setBlock = game.Point(point.x, point.y + x, point.z + 4 - y).toCommandString()
+            elif config["clocks"][clock]["axis"] == "z":
+                setBlock = game.Point(point.x, point.y + 4 - y, point.z + x).toCommandString()
+            elif config["clocks"][clock]["axis"] == "-x":
+                setBlock = game.Point(point.x - x, point.y + 4 - y, point.z).toCommandString()
+            elif config["clocks"][clock]["axis"] == "-y":
+                setBlock = game.Point(point.x, point.y - x, point.z + 4 - y).toCommandString()
+            elif config["clocks"][clock]["axis"] == "-z":
+                setBlock = game.Point(point.x, point.y + 4 - y, point.z - x).toCommandString()
+
+            blockType = config["clocks"][clock]["segOffBlock"]
 
             if characters[character][y][x] == 1:
-                blockType = config["segOnBlock"]
+                blockType = config["clocks"][clock]["segOnBlock"]
             
             interface.sendCommand("setblock {} {}".format(setBlock, blockType), False)
 
@@ -100,23 +112,62 @@ def __start__(gameParameter, interfaceParameter, configParameter):
     interface = interfaceParameter
     config = configParameter
 
-    # Clear area to render blocks
-    displayedTime = time.strftime(config["timeFormat"], time.localtime())
-    lastTime = " " * len(displayedTime)
+    for clock in range(0, len(config["clocks"]):
+        lastTimes.append("")
 
-    time.sleep(10)
+        # Clear area to render blocks
+        displayedTime = time.strftime(config["clocks"][clock]["timeFormat"], time.localtime())
+        lastTimes[clock] = " " * len(displayedTime)
 
-    interface.sendCommand("fill {} {} {} {} {} {} {}".format(config["x"], config["y"], config["z"], config["x"] + (4 * len(displayedTime)), config["y"] + 5, config["z"], config["segOffBlock"]), False)
+        time.sleep(10)
+
+        dx = 0
+        dy = 0
+        dz = 0
+
+        if config["clocks"][clock]["axis"] == "x":
+            dx = 4 * len(displayedTime)
+            dy = 5
+            dz = 0
+        elif config["clocks"][clock]["axis"] == "y":
+            dx = 0
+            dy = 4 * len(displayedTime)
+            dz = 5
+        elif config["clocks"][clock]["axis"] == "z":
+            dx = 0
+            dy = 5
+            dz = 4 * len(displayedTime)
+        elif config["clocks"][clock]["axis"] == "-x":
+            dx = -4 * len(displayedTime)
+            dy = 5
+            dz = 0
+        elif config["clocks"][clock]["axis"] == "-y":
+            dx = 0
+            dy = -4 * len(displayedTime)
+            dz = 5
+        elif config["clocks"][clock]["axis"] == "-z":
+            dx = 0
+            dy = 5
+            dz = -4 * len(displayedTime)
+
+        interface.sendCommand("fill {} {} {} {} {} {} {}".format(
+            config["clocks"][clock]["x"],
+            config["clocks"][clock]["y"],
+            config["clocks"][clock]["z"],
+            config["clocks"][clock]["x"] + dx,
+            config["clocks"][clock]["y"] + dy,
+            config["clocks"][clock]["z"] + dz,
+            config["clocks"][clock]["segOffBlock"]
+        ), False)
 
 def __loop__():
-    global lastTime
-
-    displayedTime = time.strftime(config["timeFormat"], time.localtime())
-
-    print(displayedTime)
+    global lastTimes
     
-    for i in range(0, len(displayedTime)):
-        if lastTime[i] != displayedTime[i]:
-            renderCharacter(game.Point(config["x"] + (4 * i), config["y"], config["z"]), displayedTime[i])
+    for clock in range(0, len(config["clocks"])):
+        displayedTime = time.strftime(config["clocks"][clock]["timeFormat"], time.localtime())
 
-    lastTime = displayedTime
+        for i in range(0, len(displayedTime)):
+            if lastTime[i] != displayedTime[i]:
+                renderCharacter(clock, game.Point(config["clocks"][clock]["x"] + (4 * i), config["clocks"][clock]["y"], config["clocks"][clock]["z"]), displayedTime[i])
+
+        lastTimes[clock] = displayedTime
