@@ -120,8 +120,6 @@ def __start__(gameParameter, interfaceParameter, configParameter):
         displayedTime = time.strftime(config["clocks"][clock]["timeFormat"], time.localtime())
         lastTimes[clock] = " " * len(displayedTime)
 
-        time.sleep(10)
-
         dx = 0
         dy = 0
         dz = 0
