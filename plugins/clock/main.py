@@ -166,8 +166,43 @@ def __loop__():
     for clock in range(0, len(config["clocks"])):
         displayedTime = time.strftime(config["clocks"][clock]["timeFormat"], time.localtime())
 
+        print("Clock {}: {}".format(clock, displayedTime))
+
         for i in range(0, len(displayedTime)):
+            dx = 0
+            dy = 0
+            dz = 0
+
+            if config["clocks"][clock]["axis"] == "x":
+                dx = 4 * i
+                dy = 0
+                dz = 0
+            elif config["clocks"][clock]["axis"] == "y":
+                dx = 0
+                dy = 4 * i
+                dz = 0
+            elif config["clocks"][clock]["axis"] == "z":
+                dx = 0
+                dy = 0
+                dz = 4 * i
+            elif config["clocks"][clock]["axis"] == "-x":
+                dx = -4 * i
+                dy = 0
+                dz = 0
+            elif config["clocks"][clock]["axis"] == "-y":
+                dx = 0
+                dy = -4 * i
+                dz = 0
+            elif config["clocks"][clock]["axis"] == "-z":
+                dx = 0
+                dy = 0
+                dz = -4 * i
+
             if lastTimes[i] != displayedTime[i]:
-                renderCharacter(clock, game.Point(config["clocks"][clock]["x"] + (4 * i), config["clocks"][clock]["y"], config["clocks"][clock]["z"]), displayedTime[i])
+                renderCharacter(clock, game.Point(
+                    config["clocks"][clock]["x"] + dx,
+                    config["clocks"][clock]["y"] + dy,
+                    config["clocks"][clock]["z"] + dz
+                ), displayedTime[i])
 
         lastTimes[clock] = displayedTime
