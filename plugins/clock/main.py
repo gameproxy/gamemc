@@ -91,13 +91,13 @@ def renderCharacter(point, character):
             if characters[character][y][x] == 1:
                 blockType = config["segOnBlock"]
 
-            if "{} {} {}".format(x, y ,character) in blockCache:
-                if blockCache["{} {} {}".format(x, y, character)] == blockType:
+            if "{} {}".format(x, y) in blockCache:
+                if blockCache["{} {}".format(x, y)] == blockType:
                     # Saves a few command calls
                     continue
             
             interface.sendCommand("setblock {} {}".format(setBlock, blockType), False)
-            blockCache["{} {} {}".format(x, y, character)] = blockType
+            blockCache["{} {}".format(x, y)] = blockType
 
 def __start__(gameParameter, interfaceParameter, configParameter):
     global game, interface, config
@@ -115,6 +115,8 @@ def __start__(gameParameter, interfaceParameter, configParameter):
 
 def __loop__():
     displayedTime = time.strftime(config["timeFormat"], time.localtime())
+
+    print(displayedTime)
     
     for i in range(0, len(displayedTime)):
         renderCharacter(game.Point(config["x"] + (4 * i), config["y"], config["z"]), displayedTime[i])
