@@ -77,6 +77,7 @@ characters = {
         [0, 0, 0],
         [0, 1, 0],
         [0, 0, 0]
+    ]
 }
 
 def renderCharacter(point, character):
@@ -98,4 +99,4 @@ def __loop__():
     displayedTime = time.strftime(config["timeFormat"], time.localtime())
     
     for i in range(0, len(displayedTime)):
-        renderCharacter(config["x"] + (4 * i), config["y"], config["z"])
+        renderCharacter(game.Point(config["x"] + (4 * i), config["y"], config["z"]), displayedTime[i])
