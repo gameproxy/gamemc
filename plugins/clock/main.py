@@ -97,6 +97,7 @@ def renderCharacter(point, character):
                     continue
             
             interface.sendCommand("setblock {} {}".format(setBlock, blockType))
+            blockCache["{} {}".format(x, y)] = blockType
 
 def __start__(gameParameter, interfaceParameter, configParameter):
     global game, interface, config
