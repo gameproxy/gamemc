@@ -102,7 +102,7 @@ def __start__(gameParameter, interfaceParameter, configParameter):
 
     # Clear area to render blocks
     displayedTime = time.strftime(config["timeFormat"], time.localtime())
-    lastTime = displayedTime
+    lastTime = " " * len(displayedTime)
 
     time.sleep(10)
 
