@@ -1,6 +1,6 @@
 import json
 import os.path
-import datetime
+import time
 
 DEFAULT_BAN_MESSAGE = "You've been banned from this server!"
 
@@ -45,14 +45,14 @@ def addToBanList(targetPlayers = None, timePeriod = None, message = None, subseq
             if timePeriod == None:
                 rawBanList["bannedPlayerAttributes"][player.name]["bannedUntil"] = None
             else:
-                rawBanList["bannedPlayerAttributes"][player.name]["bannedUntil"] = datetime.datetime.utcnow().timestamp() + timePeriod
+                rawBanList["bannedPlayerAttributes"][player.name]["bannedUntil"] = time.time() + timePeriod
     
     writeRawBanList()
 
     interface.kick(message, targetPlayers)
 
 def __start__(gameParameter, interfaceParameter, configParameter):
-    global game, interface, config, defaultBanMessage, defaultSubsequentBanMessage
+    global game, interface, config
     
     game = gameParameter
     interface = interfaceParameter
@@ -65,7 +65,7 @@ def __loop__(events):
         if event.type == "playerJoin":
             for playerName in rawBanList["bannedPlayers"]:
                 if event.data["name"] == playerName:
-                    if rawBanList["bannedPlayerAttributes"][playerName]["bannedUntil"] == None or rawBanList["bannedPlayerAttributes"][playerName]["bannedUntil"] > datetime.datetime.utcnow().timestamp():
+                    if rawBanList["bannedPlayerAttributes"][playerName]["bannedUntil"] == None or rawBanList["bannedPlayerAttributes"][playerName]["bannedUntil"] > time.time():
                         interface.kick(rawBanList["bannedPlayerAttributes"][playerName]["subsequentMessage"], [game.Player(playerName)])
                     else:
                         rawBanList["bannedPlayers"].remove(playerName)

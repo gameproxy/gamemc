@@ -2,6 +2,21 @@
     "serverDirectory": "/home/pi/MCServer",
     "plugins": [
         {
+            "name": "drops",
+            "config": {
+                "items": [
+                    {
+                        "item": "diamond",
+                        "commands": [
+                            "say @p dropped something!",
+                            "tp @p 25 4 28"
+                        ]
+                    }
+                ],
+                "runEvery": 5
+            }
+        },
+        {
             "name": "clock",
             "config": {
                 "clocks": [
