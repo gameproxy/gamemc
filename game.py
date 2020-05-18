@@ -8,6 +8,7 @@ RE_INFO_PLAYER_CONNECTED = "^\[....-..-.. ..:..:.. INFO] Player connected: (.*),
 RE_INFO_PLAYER_DISCONNECTED = "^\[....-..-.. ..:..:.. INFO] Player disconnected: (.*), xuid: .*$"
 RE_FOUND_PLAYERS = "Found (.*)"
 NO_TARGETS = "No targets matched selector"
+BLOCK_ERROR = "Cannot place block outside of the world"
 
 players = []
 
@@ -139,8 +140,8 @@ class GameInterface:
 
         playerResult = self.sendCommand("testfor @e" + volume.toSelectorString())
 
-        if playerResult != NO_TARGETS and re.compile(RE_FOUND_PLAYERS).match(playerResult) != None:
-            playerList = re.compile(RE_FOUND_PLAYERS).match(playerResult).group(1).split(", ")
+        if playerResult != NO_TARGETS and playerResult != BLOCK_ERROR and re.compile(RE_FOUND_PLAYERS).match(str(playerResult)) != None:
+            playerList = re.compile(RE_FOUND_PLAYERS).match(str(playerResult)).group(1).split(", ")
 
             for player in players:
                 if player.name in playerList:

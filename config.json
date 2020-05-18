@@ -24,6 +24,27 @@
                 "banMessage": "§cYou have been banned on our server!",
                 "subsequentBanMessage": "§eYou are still banned on our server!"
             }
+        },
+        {
+            "name": "portal",
+            "config": {
+                "portals": [
+                    {
+                        "target": {
+                            "x": 0,
+                            "y": 0,
+                            "z": 0,
+                            "dx": 10,
+                            "dy": 10,
+                            "dz": 10
+                        },
+                        "commands": [
+                            "say @p is moving!",
+                            "tp @p 25 4 28"
+                        ]
+                    }
+                ]
+            }
         }
     ]
 }

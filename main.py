@@ -1,5 +1,6 @@
 import json
 import os
+import sys
 import importlib
 
 import cli
@@ -41,8 +42,16 @@ while True:
             try:
                 plugins[-1].__start__(game, gameInterfaceInstance, plugin["config"])
             except Exception as e:
+                eType, eObj, eTb = sys.exc_info()
+
                 gameInterfaceInstance.sendChatMessage("§4Plugin {} failed: uncaught {}".format(plugins[-1].__name__.split(".")[1], e.__class__.__name__))
-                print("Plugin {} failed at start: uncaught {}: {}".format(plugins[-1].__name__.split(".")[1], e.__class__.__name__, str(e)))
+                print("Plugin {} failed at start: uncaught {}: {} (in {} at line {})".format(
+                    plugins[-1].__name__.split(".")[1],
+                    e.__class__.__name__,
+                    str(e),
+                    os.path.split(eTb.tb_frame.f_code.co_filename)[1],
+                    eTb.tb_lineno
+                ))
         
         gameInterfaceInstance.sendChatMessage("§ePlugin {} loaded".format(plugins[-1].__name__.split(".")[1]))
         print("Plugin {} loaded".format(plugins[-1].__name__.split(".")[1]))
@@ -76,8 +85,16 @@ while True:
                 try:
                     plugin.__loop__(latestEvents)
                 except Exception as e:
+                    eType, eObj, eTb = sys.exc_info()
+
                     gameInterfaceInstance.sendChatMessage("§4Plugin {} failed: uncaught {}".format(plugin.__name__.split(".")[1], e.__class__.__name__))
-                    print("Plugin {} failed at loop: uncaught {}: {}".format(plugin.__name__.split(".")[1], e.__class__.__name__, str(e)))
+                    print("Plugin {} failed at loop: uncaught {}: {} (in {} at line {})".format(
+                        plugin.__name__.split(".")[1],
+                        e.__class__.__name__,
+                        str(e),
+                        os.path.split(eTb.tb_frame.f_code.co_filename)[1],
+                        eTb.tb_lineno
+                    ))
     
     gameInterfaceInstance.sendChatMessage("§ePlugin configuration modified, reloading plugins...")
     print("Plugin configuration modified, reloading plugins...")
