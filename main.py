@@ -56,7 +56,11 @@ while True:
 
     while True:
         configFile = open("config.json", "r")
-        newConfig = json.loads(configFile.read())
+
+        try:
+            newConfig = json.loads(configFile.read())
+        except:
+            pass
 
         configFile.close()
 
@@ -65,10 +69,12 @@ while True:
 
             break
 
+        latestEvents = gameInterfaceInstance.captureEvents()
+
         for plugin in plugins:
             if hasattr(plugin, "__loop__"):
                 try:
-                    plugin.__loop__()
+                    plugin.__loop__(latestEvents)
                 except Exception as e:
                     gameInterfaceInstance.sendChatMessage("§4Plugin {} failed: uncaught {}".format(plugin.__name__.split(".")[1], e.__class__.__name__))
                     print("Plugin {} failed at loop: uncaught {}: {}".format(plugin.__name__.split(".")[1], e.__class__.__name__, str(e)))

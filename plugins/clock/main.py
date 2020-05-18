@@ -159,7 +159,7 @@ def __start__(gameParameter, interfaceParameter, configParameter):
             config["clocks"][clock]["segOffBlock"]
         ), False)
 
-def __loop__():
+def __loop__(events):
     global lastRun, lastTimes
 
     if time.time() > lastRun + config["runEvery"]:

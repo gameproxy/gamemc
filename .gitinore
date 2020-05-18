@@ -1,0 +1,11 @@
+__pycache__/
+.vscode/
+behaviour_packs/
+development_behaviour_packs/
+development_resource_packs/
+development_skin_packs/
+minecraftpe/
+premium_cache/
+resource_packs/
+treatments/
+Dedicated_Server.txt

@@ -9,40 +9,20 @@
                         "x": 10,
                         "y": 10,
                         "z": 10,
-                        "timeFormat": "%S",
-                        "segOnBlock": "stone",
+                        "timeFormat": "%H:%M:%S",
+                        "segOnBlock": "glowstone",
                         "segOffBlock": "air",
                         "axis": "x"
-                    },
-                    {
-                        "x": 10,
-                        "y": 10,
-                        "z": 10,
-                        "timeFormat": "%S",
-                        "segOnBlock": "stone",
-                        "segOffBlock": "air",
-                        "axis": "z"
-                    },
-                    {
-                        "x": 10,
-                        "y": 10,
-                        "z": 10,
-                        "timeFormat": "%S",
-                        "segOnBlock": "stone",
-                        "segOffBlock": "air",
-                        "axis": "-x"
-                    },
-                    {
-                        "x": 10,
-                        "y": 10,
-                        "z": 10,
-                        "timeFormat": "%S",
-                        "segOnBlock": "stone",
-                        "segOffBlock": "air",
-                        "axis": "-z"
                     }
                 ],
                 "runEvery": 10
+            }
+        },
+        {
+            "name": "bans",
+            "config": {
+                "banMessage": "§cYou have been banned on our server!",
+                "subsequentBanMessage": "§eYou are still banned on our server!"
             }
         }
     ]

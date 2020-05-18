@@ -132,7 +132,7 @@ class GameInterface:
             self.sendCommand("tellraw @a {{\"rawtext\": [{{\"text\": \"{}\"}}]}}".format(message.replace("\"", "\\\"")), False)
         else:
             for player in targetPlayers:
-                self.sendCommand("tellraw {} {{\"rawtext\": [{{\"text\": \"{}\"}}]}}".format(player.name, message.replace("\"", "\\\"")), False)
+                self.sendCommand("tellraw \"{}\" {{\"rawtext\": [{{\"text\": \"{}\"}}]}}".format(player.name, message.replace("\"", "\\\"")), False)
     
     def observeVolume(self, volume):
         playersInVolume = []
@@ -149,3 +149,13 @@ class GameInterface:
         return {
             "players": playersInVolume
         }
+    
+    def kick(self, message, targetPlayers = None):
+        if targetPlayers == None:
+            targetPlayers = "@a"
+
+        if isinstance(targetPlayers, str):
+            self.sendCommand("kick @a {}".format(message), False)
+        else:
+            for player in targetPlayers:
+                self.sendCommand("kick \"{}\" {}".format(player.name, message), False)
